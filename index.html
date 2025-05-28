@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>JS Drum Kit</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="icon" href="https://fav.farm/🔥" />
+  </head>
+  <body>
+    <div class="keys">
+      <div data-key="KeyA" class="key">
+        <kbd>A</kbd>
+        <span class="sound">clap</span>
+      </div>
+      <div data-key="KeyS" class="key">
+        <kbd>S</kbd>
+        <span class="sound">hihat</span>
+      </div>
+      <div data-key="KeyD" class="key">
+        <kbd>D</kbd>
+        <span class="sound">kick</span>
+      </div>
+      <div data-key="KeyF" class="key">
+        <kbd>F</kbd>
+        <span class="sound">openhat</span>
+      </div>
+      <div data-key="KeyG" class="key">
+        <kbd>G</kbd>
+        <span class="sound">boom</span>
+      </div>
+      <div data-key="KeyH" class="key">
+        <kbd>H</kbd>
+        <span class="sound">ride</span>
+      </div>
+      <div data-key="KeyJ" class="key">
+        <kbd>J</kbd>
+        <span class="sound">snare</span>
+      </div>
+      <div data-key="KeyK" class="key">
+        <kbd>K</kbd>
+        <span class="sound">tom</span>
+      </div>
+      <div data-key="KeyL" class="key">
+        <kbd>L</kbd>
+        <span class="sound">tink</span>
+      </div>
+    </div>
+
+    <audio data-key="KeyA" src="sounds/clap.wav"></audio>
+    <audio data-key="KeyS" src="sounds/hihat.wav"></audio>
+    <audio data-key="KeyD" src="sounds/kick.wav"></audio>
+    <audio data-key="KeyF" src="sounds/openhat.wav"></audio>
+    <audio data-key="KeyG" src="sounds/boom.wav"></audio>
+    <audio data-key="KeyH" src="sounds/ride.wav"></audio>
+    <audio data-key="KeyJ" src="sounds/snare.wav"></audio>
+    <audio data-key="KeyK" src="sounds/tom.wav"></audio>
+    <audio data-key="KeyL" src="sounds/tink.wav"></audio>
+
+    <script>
+      /* let timer
+window.addEventListener("keydown", function (e) {
+  const keyEl = document.querySelector(`div[data-key="${e.code}"]`);
+  const audioEl = document.querySelector(`audio[data-key="${e.code}"]`);
+
+  if (!audioEl) return;
+  audioEl.currentTime = 0;
+  audioEl.play();
+  // 给按键添加样式
+  keyEl.classList.add("playing");
+  // 移除定时器
+  if (timer) {
+    clearTimeout(timer);
+  }
+  timer = setTimeout(() => {
+    keyEl.classLists.remove("playing");
+  }, 70);
+}); */
+      //改进版
+      const timers = new Map();
+      window.addEventListener("keydown", function (e) {
+        const keyEl = document.querySelector(`div[data-key="${e.code}"]`);
+        const audioEl = document.querySelector(`audio[data-key="${e.code}"]`);
+
+        if (!audioEl || !keyEl) return;
+        audioEl.currentTime = 0;
+        audioEl.play();
+        keyEl.classList.add("playing");
+
+        // 清除当前按键的旧定时器
+        if (timers.has(e.code)) {
+          clearTimeout(timers.get(e.code));
+        }
+        // 设置新定时器
+        const timer = setTimeout(() => {
+          keyEl.classList.remove("playing");
+          timers.delete(e.code); // 你问的“清理”
+        }, 70);
+        timers.set(e.code, timer);
+      });
+
+      //map?
+
+      // 播放鼓声
+      /*      function playSound(e) {
+        let keyEl = document.querySelector(`div[data-key="${e.code}"]`);
+        let audioEl = document.querySelector(`audio[data-key="${e.code}"]`);
+        if (!audioEl) return;
+        // 添加对应键盘样式
+        keyEl.classList.add("playing");
+        audioEl.currentTime = 0;
+        audioEl.play();
+      }
+      // 移除样式
+      function removeTransition(e) {
+        if (e.propertyName !== "border-bottom-color") return;
+        this.classList.remove("playing");
+        console.log("触发");
+      }
+      // 监听键盘事件
+      window.addEventListener("keydown", playSound);
+      // 获取所有按键
+      const keysEl = document.querySelectorAll(".key");
+      // 给对应的按键添加 transitionend 事件，动画结束时就移除样式
+      keysEl.forEach((key) =>
+        key.addEventListener("transitionend", removeTransition)
+      ); */
+    </script>
+    <script></script>
+  </body>
+</html>
